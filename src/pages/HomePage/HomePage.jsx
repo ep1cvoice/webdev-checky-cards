@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import { API_URL } from '../../constants';
+
 import QuestionCardList from '../../components/QuestionCardList';
 import { Loader } from '../../components/Loader';
 import { useFetch } from '../../hooks/useFetch';
+import SearchInput from '../../components/SearchInput';
+
+import styles from './HomePage.module.css';
 
 const HomePage = () => {
 	const [questions, setQuestions] = useState([]);
@@ -22,11 +26,13 @@ const HomePage = () => {
 
 	const onSearchChangehandler = (e) => {
 		setSearchValue(e.target.value);
-	}
+	};
 
 	return (
 		<>
-			<input type='text' value ={searchValue} onChange={onSearchChangehandler}/>
+			<div className={styles.controlsContainer}>
+				<SearchInput value={searchValue} onChange={onSearchChangehandler} />
+			</div>
 
 			{isLoading && <Loader />}
 			{error && <p>{error}</p>}
