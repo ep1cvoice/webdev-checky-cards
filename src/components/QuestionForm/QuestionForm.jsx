@@ -15,12 +15,13 @@ const QuestionForm = ({ formAction, formState, submitBtnText, isLoading }) => {
 					rows='2'
 					required
 					placeholder='Enter question title'
+					minLength={10}
 				/>
 			</div>
 
 			<div className={styles.formWrapper}>
 				<label htmlFor='categoryField'>Category: </label>
-				<select name='category' id='categoryField' defaultValue={formState?.category || ''}>
+				<select name='category' id='categoryField' defaultValue={formState?.category || ''} required>
 					<option disabled value=''>
 						Choose Category
 					</option>
@@ -37,7 +38,7 @@ const QuestionForm = ({ formAction, formState, submitBtnText, isLoading }) => {
 
 			<div className={styles.formWrapper}>
 				<label htmlFor='levelField'>Level:</label>
-				<select name='level' id='levelField' defaultValue={formState?.level || ''}>
+				<select name='level' id='levelField' defaultValue={formState?.level || ''} required>
 					<option disabled value=''>
 						Question Level
 					</option>
@@ -58,6 +59,7 @@ const QuestionForm = ({ formAction, formState, submitBtnText, isLoading }) => {
 					rows='2'
 					required
 					placeholder='Enter a short answer'
+					minLength={5}
 				/>
 			</div>
 
@@ -71,6 +73,7 @@ const QuestionForm = ({ formAction, formState, submitBtnText, isLoading }) => {
 					rows='5'
 					required
 					placeholder='Enter a full description'
+					minLength={20}
 				/>
 			</div>
 
@@ -82,7 +85,6 @@ const QuestionForm = ({ formAction, formState, submitBtnText, isLoading }) => {
 					id='resourcesField'
 					cols='30'
 					rows='5'
-					required
 					placeholder='Enter links separated by comma'
 				/>
 			</div>
