@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { delay } from '../helpers/delay';
 
 export const useFetch = (callback) => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -9,7 +8,6 @@ export const useFetch = (callback) => {
 		try {
 			setIsLoading(true);
 			setError('');
-			await delay();
 
 			const response = await callback(arg);
 

@@ -12,10 +12,10 @@ const HomePage = () => {
 	const [questions, setQuestions] = useState([]);
 	const [searchValue, setSearchValue] = useState('');
 	const [sortSelectValue, setSortSelectValue] = useState('');
-	const [filterSelectValue, setFilterSelectValue] = useState('');
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
-	const [searchParams] = useSearchParams();
+	const [searchParams, setSearchParams] = useSearchParams();
+	const technology = searchParams.get('technology') || '';
 	const getLimit = () => {
 		if (window.innerWidth >= 1500) return 10;
 		if (window.innerWidth >= 768) return 8;
@@ -45,8 +45,8 @@ const HomePage = () => {
 			params.push(`q=${searchValue.trim()}`);
 		}
 
-		if (filterSelectValue) {
-			params.push(`category=${filterSelectValue}`);
+		if (technology) {
+			params.push(`category=${technology}`);
 		}
 
 		if (sortSelectValue) {
@@ -63,11 +63,11 @@ const HomePage = () => {
 		const queryString = `?${params.join('&')}`;
 
 		getQuestions(`checkycards${queryString}`);
-	}, [searchValue, filterSelectValue, sortSelectValue, page, limit]);
+	}, [searchValue, technology, sortSelectValue, page, limit]);
 
 	useEffect(() => {
 		setPage(1);
-	}, [searchValue, filterSelectValue, sortSelectValue, limit]);
+	}, [searchValue, technology, sortSelectValue, limit]);
 
 	const onSearchChangeHandler = (e) => {
 		setSearchValue(e.target.value);
@@ -89,25 +89,34 @@ const HomePage = () => {
 		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 
-	useEffect(() => {
-		const techFromUrl = searchParams.get('technology');
-
-		if (techFromUrl) {
-			setFilterSelectValue(techFromUrl);
-		}
-	}, [searchParams]);
-
 	return (
 		<>
 			<div className={styles.controlsContainer}>
 				<SearchInput value={searchValue} onChange={onSearchChangeHandler} />
 
 				<div className={styles.selectGroup}>
-					<select value={filterSelectValue} onChange={onFilterSelectChangeHandler} className={styles.select}>
+					<select
+						value={technology}
+						onChange={(e) => {
+							const value = e.target.value;
+
+							setSearchParams((prev) => {
+								const params = new URLSearchParams(prev);
+
+								if (value) {
+									params.set('technology', value);
+								} else {
+									params.delete('technology');
+								}
+
+								return params;
+							});
+						}}
+						className={styles.select}>
 						<option value=''>Technology</option>
 						<option value='html'>HTML</option>
 						<option value='css'>CSS</option>
-						<option value='js'>Vanilla JS</option>
+						<option value='javascript'>Vanilla JS</option>
 						<option value='react'>React</option>
 						<option value='angular'>Angular</option>
 						<option value='vue'>Vue</option>
@@ -130,8 +139,8 @@ const HomePage = () => {
 				<div className={styles.noCardsWrapper}>
 					<div className={styles.noCards}>
 						<div className={styles.icon}>🔍</div>
-						<h3>There is no cards here</h3>
-						<p>Create your first card using Add Button</p>
+						<h3>Nothing to see here yet</h3>
+						<p>Create your first card using + Add Button</p>
 					</div>
 				</div>
 			)}
