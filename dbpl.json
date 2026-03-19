@@ -1,6 +1,19 @@
 {
   "checkycards": [
     {
+      "id": "1",
+      "category": "react",
+      "question": "Czym jest React?",
+      "answer": "React to biblioteka JavaScript do budowania interfejsów użytkownika.",
+      "description": "React to popularna biblioteka stworzona przez Facebooka (Meta), która umożliwia tworzenie dynamicznych i wydajnych aplikacji webowych. Opiera się na komponentach, które pozwalają dzielić interfejs na mniejsze, wielokrotnego użytku części. React wykorzystuje wirtualny DOM, co poprawia wydajność aktualizacji widoku.",
+      "resources": [
+        "https://react.dev/learn"
+      ],
+      "level": 1,
+      "completed": false,
+      "editDate": "18.03.2026"
+    },
+    {
       "id": "2",
       "category": "react",
       "question": "Czym jest JSX?",
@@ -10,8 +23,8 @@
         "https://react.dev/learn/writing-markup-with-jsx"
       ],
       "level": 2,
-      "completed": true,
-      "editDate": "03.02.2025, 20:25"
+      "completed": false,
+      "editDate": "18.03.2026, 20:25"
     },
     {
       "id": "3",
@@ -24,20 +37,20 @@
       ],
       "level": 1,
       "completed": false,
-      "editDate": "03.02.2025, 19:01"
+      "editDate": "3/19/2026, 12:54 AM"
     },
     {
       "id": "4",
       "category": "react",
       "question": "Jak utworzyć komponent w React?",
       "answer": "Komponent można utworzyć jako funkcję lub klasę.",
-      "description": "Komponenty funkcyjne to funkcje, które przyjmują `props` i zwracają JSX. Komponenty klasowe to klasy dziedziczące po `React.Component`, posiadające metodę `render`.",
+      "description": "Komponenty funkcyjne to funkcje, które przyjmują `props` i zwracają JSX. Komponenty klasowe to klasy dziedziczące po `React.Component`, posiadające metodę \"render\".",
       "resources": [
         "https://react.dev/learn/your-first-component"
       ],
       "level": 1,
       "completed": false,
-      "editDate": "21.02.2025, 20:26"
+      "editDate": "18.03.2026, 20:25"
     },
     {
       "id": "5",
@@ -52,18 +65,6 @@
       "completed": false
     },
     {
-      "id": "6",
-      "category": "react",
-      "question": "Czym jest stan (state) w React?",
-      "answer": "State to wewnętrzne dane komponentu, które mogą się zmieniać.",
-      "description": "Stan jest zarządzany wewnątrz komponentu i zmieniany za pomocą `setState` w komponentach klasowych lub `useState` w komponentach funkcyjnych. Zmiana stanu inicjuje ponowne renderowanie komponentu.",
-      "resources": [
-        "https://react.dev/learn/state-a-components-memory"
-      ],
-      "level": 2,
-      "completed": true
-    },
-    {
       "id": "7",
       "category": "react",
       "question": "Jak działa useState w React?",
@@ -71,18 +72,6 @@
       "description": "`useState` zwraca tablicę złożoną z dwóch elementów: bieżącej wartości stanu oraz funkcji do jego aktualizacji. Służy do przechowywania i zmiany danych w komponentach.",
       "resources": [
         "https://react.dev/reference/react/useState"
-      ],
-      "level": 2,
-      "completed": true
-    },
-    {
-      "id": "9",
-      "category": "react",
-      "question": "Czym jest React Router?",
-      "answer": "React Router to biblioteka do routingu w React.",
-      "description": "React Router pozwala organizować nawigację w aplikacji, udostępniając takie komponenty jak `BrowserRouter`, `Routes`, `Route` oraz `Link`. Obsługuje dynamiczne trasy oraz zagnieżdżone struktury.",
-      "resources": [
-        "https://reactrouter.com/en/main"
       ],
       "level": 2,
       "completed": false
@@ -97,7 +86,7 @@
         "https://react.dev/learn/keeping-components-pure"
       ],
       "level": 3,
-      "completed": true
+      "completed": false
     },
     {
       "id": "11",
@@ -157,7 +146,7 @@
         "https://react.dev/learn/responding-to-events"
       ],
       "level": 2,
-      "completed": true
+      "completed": false
     },
     {
       "id": "16",
@@ -386,7 +375,7 @@
         "https://redux.js.org"
       ],
       "level": 3,
-      "completed": true
+      "completed": false
     },
     {
       "id": "35",

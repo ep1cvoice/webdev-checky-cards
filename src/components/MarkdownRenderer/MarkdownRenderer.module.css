@@ -1,0 +1,31 @@
+.markdown {
+	font-size: 16px;
+	line-height: 1.6;
+}
+
+.markdown code {
+	background: #1e1e1e;
+	color: #ffcc66;
+	font-size: 0.95em;
+	padding: 2px 6px;
+	border-radius: 6px;
+	font-family: monospace;
+}
+
+.markdown pre {
+	background: #1e1e1e;
+	padding: 12px;
+	border-radius: 10px;
+	overflow-x: auto;
+}
+
+
+.markdown p {
+	margin: 8px 0;
+}
+
+.resultLabel {
+	font-size: 13px;
+	font-weight: 600;
+	color: #aaa;
+}
