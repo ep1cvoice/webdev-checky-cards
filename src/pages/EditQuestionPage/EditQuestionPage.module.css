@@ -103,6 +103,10 @@
 	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
+.modalTitle {
+	color: var(--text-color);
+}
+
 .modal h2 {
 	font-size: 20px;
 	margin-bottom: 10px;
@@ -193,6 +197,10 @@
 
 .closeBtn:active {
 	transform: scale(0.95);
+}
+
+.modalLi {
+	color: var(--text-color);
 }
 
 .section {
