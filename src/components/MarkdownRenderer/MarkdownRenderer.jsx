@@ -1,7 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import styles from './MarkDownRenderer.module.css';
+import styles from './MarkdownRenderer.module.css';
 
 const MarkdownRenderer = ({ content }) => {
 	if (!content || typeof content !== 'string') return null;
