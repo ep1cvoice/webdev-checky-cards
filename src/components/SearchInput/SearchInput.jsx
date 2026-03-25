@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { Search } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import styles from './SearchInput.module.css';
 
 const SearchInput = ({ value, onChange }) => {
@@ -8,7 +8,16 @@ const SearchInput = ({ value, onChange }) => {
 	return (
 		<div className={styles.inputContainer}>
 			<label htmlFor={inputId}>
-				<Search className={styles.icon} />
+				<Search className={styles.searchIcon} />
+				{value !== '' && (
+					<X
+						className={styles.closeIcon}
+						onClick={(e) => {
+							e.preventDefault();
+							onChange({ target: { value: '' } });
+						}}
+					/>
+				)}
 			</label>
 			<input
 				className={styles.input}

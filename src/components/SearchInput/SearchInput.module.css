@@ -6,10 +6,18 @@
 	position: relative;
 }
 
-.icon {
+.searchIcon {
 	position: absolute;
 	top: 10px;
 	left: 10px;
+}
+
+.closeIcon {
+	
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	cursor: pointer;
 }
 
 .input {
