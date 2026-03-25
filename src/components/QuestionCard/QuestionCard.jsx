@@ -47,6 +47,9 @@ const QuestionCard = ({ card }) => {
 	const priority = Math.min(Math.max(card.priority ?? 0, 0), 4);
 
 	const { revealMode } = useRevealAnswer();
+	const isHoverSupported = window.matchMedia('(hover: hover)').matches;
+	const effectiveMode = isHoverSupported ? revealMode : 'click';
+
 	const [showAnswer, setShowAnswer] = useState(false);
 	const timeoutRef = useRef(null);
 
@@ -61,7 +64,7 @@ const QuestionCard = ({ card }) => {
 						<div className={styles.completionBadge}>
 							{card.completed ? (
 								<>
-									<Check size={20}/>
+									<Check size={20} />
 									Completed
 								</>
 							) : (
@@ -79,11 +82,11 @@ const QuestionCard = ({ card }) => {
 			<div className={styles.cardAnswers}>
 				<span>Short Answer:</span>
 				<p
-					className={`${styles.cardParagraph} ${showAnswer ? styles.show : ''} ${revealMode === 'click' ? styles.clickable : ''}`}
+					className={`${styles.cardParagraph} ${showAnswer ? styles.show : ''} ${effectiveMode === 'click' ? styles.clickable : ''}`}
 					onClick={(e) => {
 						e.stopPropagation();
 
-						if (revealMode === 'click') {
+						if (effectiveMode === 'click') {
 							setShowAnswer(true);
 
 							if (timeoutRef.current) {
@@ -96,10 +99,10 @@ const QuestionCard = ({ card }) => {
 						}
 					}}
 					onMouseEnter={() => {
-						if (revealMode === 'hover') setShowAnswer(true);
+						if (effectiveMode === 'hover') setShowAnswer(true);
 					}}
 					onMouseLeave={() => {
-						if (revealMode === 'hover') setShowAnswer(false);
+						if (effectiveMode === 'hover') setShowAnswer(false);
 					}}>
 					{card.answer}
 				</p>
