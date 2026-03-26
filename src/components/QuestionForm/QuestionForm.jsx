@@ -47,6 +47,24 @@ const QuestionForm = ({ formAction, formState, submitBtnText, isLoading }) => {
 					<option value='4'>Pro</option>
 				</select>
 			</div>
+			<div className={styles.formWrapper}>
+				<label htmlFor='priorityField'>Priority:</label>
+				<select
+					key={formState?.priority}
+					name='priority'
+					id='priorityField'
+					defaultValue={formState?.priority || ''}
+					required>
+					<option disabled value=''>
+						Priority Rank
+					</option>
+					<option value='0'>Low</option>
+					<option value='1'>Medium</option>
+					<option value='2'>High</option>
+					<option value='3'>Ultra</option>
+					<option value='4'>Extreme</option>
+				</select>
+			</div>
 
 			<div className={styles.formWrapper}>
 				<label htmlFor='answerField'>Short Answer: </label>

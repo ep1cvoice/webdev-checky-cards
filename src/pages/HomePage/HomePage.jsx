@@ -19,7 +19,7 @@ const HomePage = () => {
 	const [totalPages, setTotalPages] = useState(1);
 	const technology = searchParams.get('technology') || '';
 	const getLimit = () => {
-		if (window.innerWidth >= 1500) return 10;
+		if (window.innerWidth >= 1500) return 12;
 		if (window.innerWidth >= 768) return 8;
 		return 5;
 	};
