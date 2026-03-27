@@ -866,12 +866,13 @@
       "answer": "Pętle pozwalają wielokrotnie wykonywać kod – while i for sprawdzają warunek przed iteracją, a do...while wykonuje kod co najmniej raz.",
       "description": "Pętle w JavaScript służą do wielokrotnego wykonywania tego samego fragmentu kodu – np. iterowania po liczbach, tablicach lub wykonywania powtarzalnych operacji.\n\n---\n### 🔹 1. Pętla while\n\n```js\nwhile (condition) {\n  // kod\n}\n```\n\n➡️ działa tak długo, jak warunek jest **true**\n\n```js\nlet i = 0;\n\nwhile (i < 3) {\n  console.log(i); // 0, 1, 2\n  i++;\n}\n```\n\n👉 ważne:\n- każda iteracja to jedno wykonanie pętli\n- jeśli zapomnisz zmienić warunek → powstanie **nieskończona pętla**\n\n```js\nwhile (i) {\n  // skrót: działa dopóki i != 0\n}\n```\n\n---\n### 🔹 2. Pętla do...while\n\n```js\ndo {\n  // kod\n} while (condition);\n```\n\n➡️ zawsze wykona się **co najmniej raz**, bo warunek jest sprawdzany po wykonaniu\n\n```js\nlet i = 0;\n\ndo {\n  console.log(i);\n  i++;\n} while (i < 3);\n```\n\n👉 używaj, gdy kod musi wykonać się przynajmniej raz\n\n---\n### 🔹 3. Pętla for\n\n```js\nfor (start; condition; step) {\n  // kod\n}\n```\n\n```js\nfor (let i = 0; i < 3; i++) {\n  console.log(i); // 0, 1, 2\n}\n```\n\n➡️ elementy:\n- `start` → wykonuje się raz\n- `condition` → sprawdzany przed każdą iteracją\n- `step` → wykonywany po każdej iteracji\n\n👉 najczęściej używana pętla\n\n---\n### 🔹 4. Zakres zmiennych\n\n```js\nfor (let i = 0; i < 3; i++) {}\n\nconsole.log(i); // ❌ błąd\n```\n\n➡️ zmienna z `let` istnieje tylko w pętli\n\n---\n### 🔹 5. Pomijanie elementów for\n\n```js\nlet i = 0;\n\nfor (; i < 3; i++) {}\n```\n\n```js\nfor (;;) {\n  // nieskończona pętla\n}\n```\n\n---\n### 🔹 6. break – przerwanie pętli\n\n```js\nwhile (true) {\n  let value = prompt(\"Podaj liczbę\");\n\n  if (!value) break;\n}\n```\n\n➡️ natychmiast kończy pętlę\n\n---\n### 🔹 7. continue – pominięcie iteracji\n\n```js\nfor (let i = 0; i < 10; i++) {\n  if (i % 2 === 0) continue;\n\n  console.log(i); // tylko nieparzyste\n}\n```\n\n➡️ pomija aktualną iterację i przechodzi dalej\n\n👉 poprawia czytelność (mniej zagnieżdżeń)\n\n---\n### 🔹 8. Etykiety (labels)\n\n➡️ pozwalają sterować zagnieżdżonymi pętlami\n\n```js\nouter: for (let i = 0; i < 3; i++) {\n  for (let j = 0; j < 3; j++) {\n    break outer;\n  }\n}\n```\n\n➡️ przerywa zewnętrzną pętlę\n\n---\n### ❗ Ważne ograniczenia\n- `break` i `continue` działają tylko w pętlach\n- nie można ich używać w operatorze ternarnym `?`\n\n---\n### ❗ Dobre praktyki\n- używaj `for` gdy znasz liczbę iteracji\n- używaj `while` gdy warunek jest dynamiczny\n- unikaj nieskończonych pętli bez `break`\n- używaj `continue`, by uprościć kod\n\n---\n### 📌 Podsumowanie\n- `while` → sprawdza warunek przed iteracją\n- `do...while` → wykona się przynajmniej raz\n- `for` → najbardziej uniwersalna pętla\n- `break` → przerywa pętlę\n- `continue` → pomija iterację\n- pętle są podstawą pracy z danymi i logiką w JS",
       "resources": [
-        "https://javascript.info/while-for"
+        "https://javascript.info/while-for",
+        "https://www.youtube.com/watch?v=cTaqQG5CNh8&list=PLV9lBwGQ2FU0-U3l5z34bBXXzNEag_20F&index=21"
       ],
       "level": 2,
       "priority": 4,
-      "completed": false,
-      "editDate": "23.03.2026"
+      "completed": true,
+      "editDate": "3/27/2026, 04:44 PM"
     },
     {
       "id": "74",
@@ -1210,6 +1211,52 @@
       "priority": 4,
       "completed": false,
       "editDate": "25.03.2026"
+    },
+    {
+      "id": "99",
+      "category": "javascript",
+      "question": "Jak działa sortowanie bąbelkowe (Bubble Sort) w JavaScript?",
+      "answer": "Bubble Sort porównuje sąsiednie elementy i zamienia je miejscami, aż tablica będzie posortowana.",
+      "description": "## 🔹 Co to jest Bubble Sort?\n\n👉 prosty algorytm sortowania\n👉 działa przez wielokrotne porównywanie elementów\n\n```js\n[5, 3, 2]\n```\n\n---\n# 🔹 1. Na czym polega? 🧠\n\n👉 porównujemy element z następnym\n👉 jeśli większy → zamiana\n\n```js\n[5, 3] → [3, 5]\n```\n\n---\n# 🔹 2. \"Wypływanie\" elementów 🔥\n\n👉 największe wartości idą na koniec\n👉 każda iteracja \"ustawia\" kolejny element\n\n---\n# 🔹 3. Implementacja\n\n```js\nfunction bubbleSort(arr) {\n  let n = arr.length;\n\n  for (let i = 0; i < n; i++) {\n    for (let j = 0; j < n - i - 1; j++) {\n      if (arr[j] > arr[j + 1]) {\n        let temp = arr[j];\n        arr[j] = arr[j + 1];\n        arr[j + 1] = temp;\n      }\n    }\n  }\n\n  return arr;\n}\n```\n\n---\n# 🔹 4. Optymalizacja ⚡\n\n👉 jeśli brak zamian → kończymy wcześniej\n\n```js\nfunction bubbleSort(arr) {\n  let n = arr.length;\n\n  for (let i = 0; i < n; i++) {\n    let swapped = false;\n\n    for (let j = 0; j < n - i - 1; j++) {\n      if (arr[j] > arr[j + 1]) {\n        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];\n        swapped = true;\n      }\n    }\n\n    if (!swapped) break;\n  }\n\n  return arr;\n}\n```\n\n---\n# 🔹 5. Złożoność ⚠️\n\n👉 O(n²) — bardzo wolny dla dużych danych\n\n---\n# 🔹 6. Kiedy używać?\n\n👉 nauka algorytmów  \n👉 bardzo małe tablice  \n\n❌ nie do produkcji\n\n---\n# 🔹 7. Intuicja 💡\n\nBubble Sort = \"przepychanie\" większych elementów na koniec\n\n---\n# 🔹 8. Najczęstsze błędy ⚠️\n\n❗ zły zakres pętli (n - i - 1)  \n❗ brak optymalizacji  \n❗ niepotrzebne iteracje\n\n---\n# 📌 podsumowanie\n\n- porównuje sąsiadów\n- zamienia miejscami\n- największe \"wypływają\"\n- prosty, ale wolny\n\nTo jeden z najprostszych algorytmów sortowania w JS.",
+      "resources": [
+        "https://learn.javascript.ru/array-methods",
+        "https://www.youtube.com/watch?v=cTaqQG5CNh8&list=PLV9lBwGQ2FU0-U3l5z34bBXXzNEag_20F&index=21"
+      ],
+      "level": 3,
+      "priority": 1,
+      "completed": false,
+      "editDate": "3/27/2026, 04:51 PM"
+    },
+    {
+      "id": "100",
+      "category": "other",
+      "question": "Jak wygląda nowoczesna architektura aplikacji webowych?",
+      "answer": "Nowoczesna architektura web opiera się na podziale na frontend, backend, API oraz automatyzacji (CI/CD), bundlerach i zarządzaniu stanem.",
+      "description": "## 🔹 Co to jest architektura aplikacji web?\n\n👉 sposób organizacji całego systemu (frontend + backend + infra)\n👉 wpływa na skalowalność, wydajność i rozwój\n\n---\n# 🔹 1. Frontend 🖥️\n\n👉 aplikacja w przeglądarce\n\n## 🔸 technologie\n\n- React / Vue / Angular\n- TypeScript\n\n## 🔸 struktura\n\n- komponenty (UI)\n- state management (Redux / Zustand / Vuex)\n- routing\n\n---\n# 🔹 2. Backend ⚙️\n\n👉 logika biznesowa\n\n## 🔸 technologie\n\n- Node.js (Express / NestJS)\n- Java / Spring\n- .NET\n\n## 🔸 zadania\n\n- API (REST / GraphQL)\n- autoryzacja\n- logika biznesowa\n- komunikacja z DB\n\n---\n# 🔹 3. Baza danych 🗄️\n\n👉 przechowywanie danych\n\n- SQL (PostgreSQL, MySQL)\n- NoSQL (MongoDB)\n\n---\n# 🔹 4. API 🔗\n\n👉 komunikacja frontend ↔ backend\n\n- REST (najczęściej)\n- GraphQL\n\n---\n# 🔹 5. Bundlery i build system ⚡\n\n👉 przygotowanie kodu do produkcji\n\n## 🔸 popularne narzędzia\n\n- Vite (najczęściej teraz 🔥)\n- Webpack (starszy, ale nadal używany)\n- Parcel\n\n## 🔸 co robi bundler?\n\n- łączy pliki\n- minifikuje kod\n- optymalizuje zasoby\n- obsługuje moduły\n\n---\n# 🔹 6. CI/CD 🚀\n\n👉 automatyzacja testów i wdrożeń\n\n## 🔸 CI (Continuous Integration)\n\n- build aplikacji\n- testy\n\n## 🔸 CD (Continuous Deployment)\n\n- automatyczne wdrożenie\n\n## 🔸 narzędzia\n\n- GitHub Actions\n- GitLab CI\n- Jenkins\n\n---\n# 🔹 7. Hosting i infrastruktura ☁️\n\n👉 gdzie działa aplikacja\n\n- Vercel / Netlify (frontend)\n- AWS / GCP / Azure\n- Docker (kontenery)\n\n---\n# 🔹 8. Architektury 🔥\n\n## 🔸 SPA (Single Page Application)\n\n👉 React / Vue app\n\n## 🔸 SSR (Server Side Rendering)\n\n👉 Next.js\n\n## 🔸 Microservices\n\n👉 backend podzielony na serwisy\n\n---\n# 🔹 9. Zarządzanie stanem 🧠\n\n👉 dane w aplikacji\n\n- local state\n- global state\n- server state (React Query 🔥)\n\n---\n# 🔹 10. Testy 🧪\n\n- unit tests (Jest)\n- integration\n- e2e (Cypress / Playwright)\n\n---\n# 🔹 11. Monitoring i logging 📊\n\n- Sentry (błędy)\n- logs\n- performance\n\n---\n# 🔹 12. Intuicja 💡\n\nNowoczesna aplikacja =\nFrontend + Backend + API + CI/CD + Cloud\n\n---\n# 🔹 13. Co jest NAJWAŻNIEJSZE do pracy? 🎯\n\n🔥 frontend + API\n🔥 Git + CI/CD basics\n🔥 bundler (Vite/Webpack)\n🔥 podstawy backendu\n\n---\n# 🔹 14. Najczęstsze pułapki ⚠️\n\n❗ brak podziału na warstwy  \n❗ brak testów  \n❗ brak CI/CD  \n❗ zbyt skomplikowana architektura na start\n\n---\n# 📌 podsumowanie\n\n- aplikacja = wiele warstw\n- bundler przygotowuje kod\n- CI/CD automatyzuje deploy\n- backend + API = klucz do danych\n\nTo standardowa architektura w nowoczesnym web devie.",
+      "resources": [
+        "https://roadmap.sh/frontend",
+        "https://roadmap.sh/backend"
+      ],
+      "level": 4,
+      "priority": 5,
+      "completed": false,
+      "editDate": "27.03.2026"
+    },
+    {
+      "id": "101",
+      "category": "html",
+      "question": "Czym jest CI/CD i jak działa w procesie tworzenia aplikacji?",
+      "answer": "CI/CD to praktyka automatyzacji budowania, testowania i wdrażania aplikacji.",
+      "description": "## 🔹 Co to jest CI/CD?\n\n👉 zestaw praktyk DevOps\n👉 automatyzuje proces developmentu\n\nCI = Continuous Integration  \nCD = Continuous Delivery / Deployment\n\n---\n# 🔹 1. Continuous Integration (CI) 🧠\n\n👉 częste łączenie kodu do repo\n👉 automatyczne testy\n\n```bash\ngit push\n```\n\n👉 uruchamia pipeline\n\n---\n# 🔹 2. Continuous Delivery 🚀\n\n👉 kod zawsze gotowy do wdrożenia\n👉 deployment ręczny (klik)\n\n---\n# 🔹 3. Continuous Deployment 🔥\n\n👉 pełna automatyzacja\n👉 każdy commit trafia na produkcję\n\n---\n# 🔹 4. Pipeline\n\n👉 sekwencja kroków:\n\n1. build\n2. test\n3. deploy\n\n---\n# 🔹 5. Przykład flow\n\n```text\ncommit → testy → build → deploy\n```\n\n---\n# 🔹 6. Narzędzia 🛠️\n\n👉 GitHub Actions  \n👉 GitLab CI  \n👉 Jenkins  \n👉 CircleCI\n\n---\n# 🔹 7. Zalety ✅\n\n✔ szybkie wykrywanie błędów  \n✔ mniej manualnej pracy  \n✔ częstsze wdrożenia  \n✔ stabilność aplikacji\n\n---\n# 🔹 8. Wady ⚠️\n\n❗ wymaga konfiguracji  \n❗ może być kosztowne  \n❗ błędy w pipeline = problemy\n\n---\n# 🔹 9. Intuicja 💡\n\nCI/CD = \"kod → test → automatyczne wdrożenie\"\n\n---\n# 🔹 10. Kiedy używać?\n\n👉 projekty zespołowe  \n👉 aplikacje webowe  \n👉 mikroserwisy  \n👉 produkcja\n\n---\n# 🔹 11. Najczęstsze błędy ⚠️\n\n❗ brak testów  \n❗ za długi pipeline  \n❗ brak rollbacku  \n❗ brak monitoringu\n\n---\n# 📌 podsumowanie\n\n- CI = integracja + testy\n- CD = wdrożenie\n- automatyzuje development\n- kluczowy element DevOps\n\nTo standard w nowoczesnym developmentcie.",
+      "resources": [
+        "https://docs.github.com/en/actions",
+        "https://www.atlassian.com/continuous-delivery",
+        "https://www.youtube.com/watch?v=ANj7qUgzNq4"
+      ],
+      "level": 2,
+      "priority": 3,
+      "completed": false,
+      "editDate": "3/27/2026, 05:15 PM"
     }
   ]
 }
