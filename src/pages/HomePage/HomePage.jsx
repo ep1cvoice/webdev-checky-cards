@@ -9,6 +9,25 @@ import { useAuth } from '../../hooks/useAuth';
 
 import styles from './HomePage.module.css';
 
+const isMissingPositionColumnError = (error) => {
+	const message = error?.message?.toLowerCase() || '';
+	return message.includes('position') && (message.includes('column') || message.includes('schema cache'));
+};
+
+const applyCardsOrdering = (query, sort, includePosition = true) => {
+	if (includePosition) {
+		query = query.order('position', { ascending: true, nullsFirst: false });
+	}
+
+	if (sort) {
+		const isDesc = sort.startsWith('-');
+		const field = sort.replace('-', '');
+		query = query.order(field, { ascending: !isDesc });
+	}
+
+	return query.order('id', { ascending: true });
+};
+
 const HomePage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [questions, setQuestions] = useState([]);
@@ -35,28 +54,30 @@ const HomePage = () => {
 	const effectiveSort = table === 'cards' && sortSelectValue.includes('completed') ? '' : sortSelectValue;
 
 	const [getQuestions, isLoading, error] = useFetch(async ({ search, category, sort, currentPage, currentLimit, activeTable }) => {
-		let query = supabase.from(activeTable).select('*', { count: 'exact' });
-
-		if (search) {
-			query = query.or(`question.ilike.%${search}%,answer.ilike.%${search}%,description.ilike.%${search}%`);
-		}
-
-		if (category) {
-			query = query.eq('category', category);
-		}
-
-		if (sort) {
-			const isDesc = sort.startsWith('-');
-			const field = sort.replace('-', '');
-			query = query.order(field, { ascending: !isDesc });
-		}
-
-		query = query.order('id', { ascending: true });
-
 		const from = (currentPage - 1) * currentLimit;
-		query = query.range(from, from + currentLimit - 1);
+		const to = from + currentLimit - 1;
 
-		const { data, count, error: queryError } = await query;
+		const buildQuery = (includePosition = true) => {
+			let query = supabase.from(activeTable).select('*', { count: 'exact' });
+
+			if (search) {
+				query = query.or(`question.ilike.%${search}%,answer.ilike.%${search}%,description.ilike.%${search}%`);
+			}
+
+			if (category) {
+				query = query.eq('category', category);
+			}
+
+			query = applyCardsOrdering(query, sort, includePosition);
+
+			return query.range(from, to);
+		};
+
+		let { data, count, error: queryError } = await buildQuery(true);
+
+		if (queryError && isMissingPositionColumnError(queryError)) {
+			({ data, count, error: queryError } = await buildQuery(false));
+		}
 
 		if (queryError) throw new Error(queryError.message);
 
