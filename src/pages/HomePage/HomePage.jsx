@@ -9,10 +9,8 @@ import { useAuth } from '../../hooks/useAuth';
 
 import styles from './HomePage.module.css';
 
-const applyCardsOrdering = (query, sort, foreignPosition = false) => {
-	if (foreignPosition) {
-		query = query.order('position', { referencedTable: 'cards', ascending: true, nullsFirst: false });
-	} else {
+const applyCardsOrdering = (query, sort, includePosition = true) => {
+	if (includePosition) {
 		query = query.order('position', { ascending: true, nullsFirst: false });
 	}
 
@@ -54,11 +52,13 @@ const HomePage = () => {
 		const from = (currentPage - 1) * currentLimit;
 		const to = from + currentLimit - 1;
 
-		const isUserTable = activeTable === 'user_cards';
+		const isMissingPositionColumnError = (err) => {
+			const message = err?.message?.toLowerCase() || '';
+			return message.includes('position') && (message.includes('column') || message.includes('schema cache'));
+		};
 
-		const buildQuery = () => {
-			const selectClause = isUserTable ? '*, cards!card_id(position)' : '*';
-			let query = supabase.from(activeTable).select(selectClause, { count: 'exact' });
+		const buildQuery = (includePosition = true) => {
+			let query = supabase.from(activeTable).select('*', { count: 'exact' });
 
 			if (search) {
 				query = query.or(`question.ilike.%${search}%,answer.ilike.%${search}%,description.ilike.%${search}%`);
@@ -68,12 +68,16 @@ const HomePage = () => {
 				query = query.eq('category', category);
 			}
 
-			query = applyCardsOrdering(query, sort, isUserTable);
+			query = applyCardsOrdering(query, sort, includePosition);
 
 			return query.range(from, to);
 		};
 
-		const { data, count, error: queryError } = await buildQuery();
+		let { data, count, error: queryError } = await buildQuery(true);
+
+		if (queryError && isMissingPositionColumnError(queryError)) {
+			({ data, count, error: queryError } = await buildQuery(false));
+		}
 
 		if (queryError) throw new Error(queryError.message);
 
