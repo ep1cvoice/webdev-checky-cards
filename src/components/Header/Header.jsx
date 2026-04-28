@@ -154,8 +154,14 @@ const Header = () => {
 
 			<div ref={navRef} className={`${styles.sideMenu} ${isOpen ? styles.open : ''}`}>
 				{menuType === 'mobile' && (
-					<div className={styles.sideMenuClose} onClick={() => setIsOpen(false)}>
-						<X size={28} />
+					<div className={styles.sideMenuTop}>
+						<div className={styles.sideMenuBrand} onClick={() => { navigate('/'); setIsOpen(false); }}>
+							<TagLogo className={`${styles.headerIcon} ${styles.tagIcon}`} />
+							<span className={styles.brandText}>WebDev Cards</span>
+						</div>
+						<div className={styles.sideMenuClose} onClick={() => setIsOpen(false)}>
+							<X size={28} />
+						</div>
 					</div>
 				)}
 
