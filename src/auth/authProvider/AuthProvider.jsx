@@ -22,17 +22,38 @@ export const AuthProvider = ({ children }) => {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
+		const isFirstVisit = !sessionStorage.getItem('splashShown');
+
+		let authDone = false;
+		let delayDone = !isFirstVisit;
+
+		const tryFinish = () => {
+			if (authDone && delayDone) {
+				setLoading(false);
+				sessionStorage.setItem('splashShown', 'true');
+			}
+		};
+
+		if (isFirstVisit) {
+			setTimeout(() => {
+				delayDone = true;
+				tryFinish();
+			}, 1500);
+		}
+
 		const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
 			setIsAuth(!!session);
 			setUser(session?.user ?? null);
 			if (session?.user) {
 				setTimeout(async () => {
 					setHasUserCards(await checkHasUserCards());
-					setLoading(false);
+					authDone = true;
+					tryFinish();
 				}, 0);
 			} else {
 				setHasUserCards(false);
-				setLoading(false);
+				authDone = true;
+				tryFinish();
 			}
 		});
 
