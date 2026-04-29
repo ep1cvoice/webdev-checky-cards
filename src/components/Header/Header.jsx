@@ -101,9 +101,11 @@ const Header = () => {
 				)}
 
 				<div className={styles.headerDesktopLeft}>
-					<div className={`${styles.burger} ${styles.desktopBurger}`} onClick={() => toggleMenu('desktop')}>
-						{isOpen && menuType === 'desktop' ? <X size={28} /> : <Menu size={28} />}
-					</div>
+					{!(isOpen && menuType === 'desktop') && (
+						<div className={`${styles.burger} ${styles.desktopBurger}`} onClick={() => toggleMenu('desktop')}>
+							<Menu size={28} />
+						</div>
+					)}
 
 					{currentTech && (
 						<div className={`${styles.headerLabel} ${styles.active}`}>
