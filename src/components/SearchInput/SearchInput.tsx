@@ -1,8 +1,14 @@
 import { useId } from 'react';
+import type { ChangeEventHandler } from 'react';
 import { Search, X } from 'lucide-react';
 import styles from './SearchInput.module.css';
 
-const SearchInput = ({ value, onChange }) => {
+interface SearchInputProps {
+	value: string;
+	onChange: ChangeEventHandler<HTMLInputElement>;
+}
+
+const SearchInput = ({ value, onChange }: SearchInputProps) => {
 	const inputId = useId();
 
 	return (
@@ -14,7 +20,7 @@ const SearchInput = ({ value, onChange }) => {
 						className={styles.closeIcon}
 						onClick={(e) => {
 							e.preventDefault();
-							onChange({ target: { value: '' } });
+							onChange({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
 						}}
 					/>
 				)}

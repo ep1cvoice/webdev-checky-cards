@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
 import Button from '../Button';
@@ -22,14 +21,33 @@ import ExpressLogo from '../../assets/Express_logo.png';
 import { Plus, LogIn, Settings, Menu, X } from 'lucide-react';
 import styles from './Header.module.css';
 
+type MenuType = 'mobile' | 'desktop';
+
+type TechnologyKey = 'html' | 'css' | 'javascript' | 'react' | 'typescript' | 'git' | 'web' | 'node' | 'next' | 'devops' | 'backend' | 'other';
+
+const TECHNOLOGIES: Record<TechnologyKey, { icon: string; label: string }> = {
+	html: { icon: htmlLogo, label: 'HTML' },
+	css: { icon: cssLogo, label: 'CSS' },
+	javascript: { icon: JSLogo, label: 'JavaScript' },
+	react: { icon: ReactLogo, label: 'React' },
+	typescript: { icon: TSLogo, label: 'TypeScript' },
+	git: { icon: GitHubLogo, label: 'Git' },
+	web: { icon: InternetLogo, label: 'Web Basics' },
+	node: { icon: NodeLogo, label: 'Node.js' },
+	next: { icon: NextLogo, label: 'Next.js' },
+	devops: { icon: DevOpsLogo, label: 'DevOps' },
+	backend: { icon: ExpressLogo, label: 'Backend' },
+	other: { icon: OtherLogo, label: 'Other' },
+};
+
 const Header = () => {
 	const navigate = useNavigate();
 	const { isAuth, signOut } = useAuth();
-	const [menuType, setMenuType] = useState('mobile');
+	const [menuType, setMenuType] = useState<MenuType>('mobile');
 	const [isOpen, setIsOpen] = useState(false);
-	const navRef = useRef(null);
+	const navRef = useRef<HTMLDivElement>(null);
 
-	const toggleMenu = (type = 'mobile') => {
+	const toggleMenu = (type: MenuType = 'mobile') => {
 		if (isOpen && menuType === type) {
 			setIsOpen(false);
 			return;
@@ -38,29 +56,14 @@ const Header = () => {
 		setIsOpen(true);
 	};
 
-	const TECHNOLOGIES = {
-		html: { icon: htmlLogo, label: 'HTML' },
-		css: { icon: cssLogo, label: 'CSS' },
-		javascript: { icon: JSLogo, label: 'JavaScript' },
-		react: { icon: ReactLogo, label: 'React' },
-		typescript: { icon: TSLogo, label: 'TypeScript' },
-		git: { icon: GitHubLogo, label: 'Git' },
-		web: { icon: InternetLogo, label: 'Web Basics' },
-		node: { icon: NodeLogo, label: 'Node.js' },
-		next: { icon: NextLogo, label: 'Next.js' },
-		devops: { icon: DevOpsLogo, label: 'DevOps' },
-		backend: { icon: ExpressLogo, label: 'Backend' },
-		other: { icon: OtherLogo, label: 'Other' },
-	};
+	const [searchParams] = useSearchParams();
+	const activeTechnology = searchParams.get('technology');
+	const currentTech = activeTechnology ? (TECHNOLOGIES[activeTechnology as TechnologyKey] ?? null) : null;
 
-	const goToTechnology = (tech) => {
+	const goToTechnology = (tech: TechnologyKey) => {
 		navigate(`/?technology=${tech}`);
 		setIsOpen(false);
 	};
-
-	const [searchParams] = useSearchParams();
-	const activeTechnology = searchParams.get('technology');
-	const currentTech = TECHNOLOGIES[activeTechnology] || null;
 
 	const loginHandler = async () => {
 		if (isAuth) {
@@ -76,11 +79,11 @@ const Header = () => {
 	};
 
 	useEffect(() => {
-		function handleClickOutside(event) {
-			if (navRef.current && !navRef.current.contains(event.target)) {
-				setIsOpen(false); 
+		const handleClickOutside = (event: MouseEvent) => {
+			if (navRef.current && !navRef.current.contains(event.target as Node)) {
+				setIsOpen(false);
 			}
-		}
+		};
 
 		if (isOpen) {
 			document.addEventListener('mousedown', handleClickOutside);
@@ -89,7 +92,7 @@ const Header = () => {
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [isOpen, setIsOpen]);
+	}, [isOpen]);
 
 	return (
 		<>
@@ -132,7 +135,7 @@ const Header = () => {
 					<div className={styles.headerButtons}>
 						{isAuth ? (
 							<>
-								<Button onClick={() => navigate('/addquestion')} isDisabled={false} isNeutral={true}>
+								<Button onClick={() => navigate('/addquestion')} isNeutral={true}>
 									<Plus size={18} /> Add New Card{' '}
 								</Button>
 
@@ -145,7 +148,7 @@ const Header = () => {
 							''
 						)}
 						<Button onClick={loginHandler} isLogged={isAuth} isNeutral={!isAuth}>
-							<LogIn size={18} i />
+							<LogIn size={18} />
 							{isAuth ? 'Log Out' : 'Log In'}
 						</Button>
 					</div>
@@ -174,8 +177,7 @@ const Header = () => {
 								setIsOpen(false);
 								navigate('/addquestion');
 							}}
-							isNeutral={true}
-							isDisabled={false}>
+							isNeutral={true}>
 							<Plus size={16} /> Add New Card{' '}
 						</Button>
 						<Button
@@ -189,7 +191,7 @@ const Header = () => {
 				) : (
 					''
 				)}
-				{menuType == 'mobile' ? (
+				{menuType === 'mobile' ? (
 					<Button
 						onClick={() => {
 							setIsOpen(false);
@@ -206,87 +208,15 @@ const Header = () => {
 
 				<h3>Technologies</h3>
 
-				<div
-					className={`${styles.menuItem} ${activeTechnology === 'html' ? styles.activeMenuItem : ''}`}
-					onClick={() => goToTechnology('html')}>
-					<img src={htmlLogo} alt='html' />
-					<span>HTML</span>
-				</div>
-
-				<div
-					className={`${styles.menuItem} ${activeTechnology === 'css' ? styles.activeMenuItem : ''}`}
-					onClick={() => goToTechnology('css')}>
-					<img src={cssLogo} alt='css' />
-					<span>CSS</span>
-				</div>
-
-				<div
-					className={`${styles.menuItem} ${activeTechnology === 'javascript' ? styles.activeMenuItem : ''}`}
-					onClick={() => goToTechnology('javascript')}>
-					<img src={JSLogo} alt='JS' />
-					<span>JavaScript</span>
-				</div>
-
-				<div
-					className={`${styles.menuItem} ${activeTechnology === 'react' ? styles.activeMenuItem : ''}`}
-					onClick={() => goToTechnology('react')}>
-					<img src={ReactLogo} alt='React' />
-					<span>React</span>
-				</div>
-
-				<div
-					className={`${styles.menuItem} ${activeTechnology === 'typescript' ? styles.activeMenuItem : ''}`}
-					onClick={() => goToTechnology('typescript')}>
-					<img src={TSLogo} alt='Typescript' />
-					<span>TypeScript</span>
-				</div>
-
-				<div
-					className={`${styles.menuItem} ${activeTechnology === 'node' ? styles.activeMenuItem : ''}`}
-					onClick={() => goToTechnology('node')}>
-					<img src={NodeLogo} alt='Node.jsx' />
-					<span>Node.js</span>
-				</div>
-				<div
-					className={`${styles.menuItem} ${activeTechnology === 'next' ? styles.activeMenuItem : ''}`}
-					onClick={() => goToTechnology('next')}>
-					<img src={NextLogo} alt='Next.jsx' />
-					<span>Next.js</span>
-				</div>
-
-				<div
-					className={`${styles.menuItem} ${activeTechnology === 'web' ? styles.activeMenuItem : ''}`}
-					onClick={() => goToTechnology('web')}>
-					<img src={InternetLogo} alt='Web Fundamentals' />
-					<span>Web Basics</span>
-				</div>
-				<div
-					className={`${styles.menuItem} ${activeTechnology === 'git' ? styles.activeMenuItem : ''}`}
-					onClick={() => goToTechnology('git')}>
-					<img src={GitHubLogo} alt='Gi' />
-					<span>Git</span>
-				</div>
-
-				<div
-					className={`${styles.menuItem} ${activeTechnology === 'devops' ? styles.activeMenuItem : ''}`}
-					onClick={() => goToTechnology('devops')}>
-					<img src={DevOpsLogo} alt='DevOps' />
-					<span>DevOps</span>
-				</div>
-
-				<div
-					className={`${styles.menuItem} ${activeTechnology === 'backend' ? styles.activeMenuItem : ''}`}
-					onClick={() => goToTechnology('backend')}>
-					<img src={ExpressLogo} alt='Backend' />
-					<span>Backend</span>
-				</div>
-
-				<div
-					className={`${styles.menuItem} ${activeTechnology === 'other' ? styles.activeMenuItem : ''}`}
-					onClick={() => goToTechnology('other')}>
-					<img src={OtherLogo} alt='Other topics' />
-					<span>Other</span>
-				</div>
+				{(Object.entries(TECHNOLOGIES) as [TechnologyKey, { icon: string; label: string }][]).map(([key, { icon, label }]) => (
+					<div
+						key={key}
+						className={`${styles.menuItem} ${activeTechnology === key ? styles.activeMenuItem : ''}`}
+						onClick={() => goToTechnology(key)}>
+						<img src={icon} alt={label} />
+						<span>{label}</span>
+					</div>
+				))}
 			</div>
 		</>
 	);

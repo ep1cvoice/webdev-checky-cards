@@ -1,4 +1,4 @@
-import Button from '../../components/Button';
+import Button from '../Button';
 import styles from './QuestionForm.module.css';
 
 const QuestionForm = ({ formAction, formState, submitBtnText, isLoading }) => {
